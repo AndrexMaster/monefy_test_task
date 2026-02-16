@@ -35,14 +35,11 @@ class InvoiceController extends Controller
         return Invoice::create($data);
     }
 
-    // Один конкретный счет
     public function show(Invoice $invoice) {
         return $invoice;
     }
 
-    // Обновление
     public function update(Request $request, Invoice $invoice) {
-        // Обновление разрешено только для статуса pending
         if ($invoice->status !== 'pending') {
             return response()->json(['message' => 'Only pending invoices can be updated'], 403);
         }
@@ -50,16 +47,20 @@ class InvoiceController extends Controller
         $data = $request->validate([
             'net_amount' => 'required|numeric|gt:0',
             'vat_amount' => 'required|numeric|min:0',
-            'due_date' => 'required|date|after_or_equal:issue_date',
-            // Другие поля...
+            'due_date'   => 'required|date|after_or_equal:issue_date',
+            'number'        => 'required|string|unique:invoices,number,' . $invoice->id,
+            'supplier_info' => 'required|string|max:255',
+            'status'        => 'required|in:pending,approved,rejected',
         ]);
 
-        // Перевалидация сумм при обновлении
+        $data['gross_amount'] = $data['net_amount'] + $data['vat_amount'];
+
+        $invoice->update($data);
+
         $invoice->update($request->all());
         return $invoice;
     }
 
-    // Удаление
     public function destroy(Invoice $invoice) {
         $invoice->delete();
         return response()->noContent();

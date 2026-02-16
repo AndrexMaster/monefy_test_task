@@ -10,10 +10,8 @@ A full-stack application for managing financial invoices, built with **Nuxt 4**,
 
 ### 2. Installation
 ```bash
-# Start the containers
 docker-compose up --build
 
-# Install backend dependencies & run migrations
 docker-compose exec laravel-api composer install
 docker-compose exec laravel-api php artisan migrate --seed
 ```

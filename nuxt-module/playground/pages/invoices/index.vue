@@ -42,19 +42,29 @@ const goToInvoice = (id) => {
       <table class="w-full text-left border-collapse">
         <thead>
           <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-wider">
-            <th class="px-6 py-4 font-semibold">Number</th>
-            <th class="px-6 py-4 font-semibold">Supplier</th>
-            <th class="px-6 py-4 font-semibold">Amount</th>
-            <th class="px-6 py-4 font-semibold">Status</th>
-            <th class="px-6 py-4 font-semibold">Due Date</th>
+            <th class="px-6 py-4 font-semibold">
+              Number
+            </th>
+            <th class="px-6 py-4 font-semibold">
+              Supplier
+            </th>
+            <th class="px-6 py-4 font-semibold">
+              Amount
+            </th>
+            <th class="px-6 py-4 font-semibold">
+              Status
+            </th>
+            <th class="p-6 py-4 font-semibold">
+              Due Date
+            </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-100">
           <tr
             v-for="invoice in invoices"
             :key="invoice.id"
-            @click="goToInvoice(invoice.id)"
             class="group cursor-pointer hover:bg-slate-50 transition-colors"
+            @click="goToInvoice(invoice.id)"
           >
             <td class="px-6 py-4 text-sm font-medium text-slate-900">
               #{{ invoice.number }}
@@ -77,7 +87,10 @@ const goToInvoice = (id) => {
         </tbody>
       </table>
 
-      <div v-if="!invoices?.length" class="p-12 text-center text-slate-400">
+      <div
+        v-if="!invoices?.length"
+        class="p-12 text-center text-slate-400"
+      >
         No invoices found.
       </div>
     </div>

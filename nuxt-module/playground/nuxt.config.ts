@@ -5,21 +5,21 @@ export default defineNuxtConfig({
   myModule: {},
   modules: [
     '../src/module',
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
   ],
   runtimeConfig: {
     public: {
-      apiBase: 'http://localhost:8000/api'
-    }
+      apiBase: 'http://localhost:8000/api',
+    },
   },
   vite: {
     server: {
       proxy: {
         '/api': {
           target: 'http://laravel-api:8000',
-          changeOrigin: true
-        }
-      }
-    }
-  }
+          changeOrigin: true,
+        },
+      },
+    },
+  },
 })
