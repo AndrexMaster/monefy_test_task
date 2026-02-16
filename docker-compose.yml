@@ -1,0 +1,51 @@
+services:
+  # Backend (Laravel)
+  backend:
+    build:
+      context: ./laravel-api
+      dockerfile: Dockerfile
+    container_name: laravel-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./laravel-api:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=monefy_db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=secret
+
+  # Frontend (Nuxt)
+  frontend:
+    build:
+      context: ./nuxt-module
+      dockerfile: Dockerfile
+    container_name: nuxt-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nuxt-module:/src
+      - /src/node_modules
+    environment:
+      - NUXT_PUBLIC_API_BASE=http://localhost:8000/api
+
+  # Database (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=monefy_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

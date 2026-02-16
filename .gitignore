@@ -1,0 +1,13 @@
+# IDE
+.idea/
+
+# Backend
+laravel-api/vendor/
+laravel-api/.env
+laravel-api/storage/*.key
+
+# Frontend
+nuxt-module/node_modules/
+nuxt-module/.nuxt/
+nuxt-module/.output/
+nuxt-module/dist/
